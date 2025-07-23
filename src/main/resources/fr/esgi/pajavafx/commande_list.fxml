@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="16" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="fr.esgi.pajavafx.controllers.CommandeListController">
+    <padding>
+        <Insets top="20" bottom="20" left="20" right="20"/>
+    </padding>
+    <children>
+        <Label text="Liste des commandes" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+        <TableView fx:id="tableCommandes" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="colTicketId" text="ID Ticket" prefWidth="90"/>
+                <TableColumn fx:id="colTechnicienId" text="ID Technicien" prefWidth="110"/>
+                <TableColumn fx:id="colStatus" text="Statut" prefWidth="100"/>
+                <TableColumn fx:id="colCreatedAt" text="Créé le" prefWidth="140"/>
+                <TableColumn fx:id="colActions" text="Actions" prefWidth="120"/>
+            </columns>
+        </TableView>
+        <Button text="Ajouter une commande" onAction="#onAddCommande" style="-fx-font-size:14"/>
+    </children>
+</VBox>

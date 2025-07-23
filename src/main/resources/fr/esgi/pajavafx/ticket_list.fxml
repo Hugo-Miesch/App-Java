@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="fr.esgi.pajavafx.controllers.TicketListController">
+    <padding>
+        <Insets top="16" right="16" bottom="16" left="16"/>
+    </padding>
+    <children>
+        <Label text="Gestion des tickets" style="-fx-font-size: 22"/>
+        <TableView fx:id="tableTickets">
+            <columns>
+                <TableColumn fx:id="colId" text="ID"/>
+                <TableColumn fx:id="colRobotId" text="Robot"/>
+                <TableColumn fx:id="colEntrepotId" text="Entrepôt"/>
+                <TableColumn fx:id="colIssue" text="Problème"/>
+                <TableColumn fx:id="colPriority" text="Priorité"/>
+                <TableColumn fx:id="colStatus" text="Statut"/>
+                <TableColumn fx:id="colCreatedAt" text="Créé le"/>
+                <TableColumn fx:id="colResolvedAt" text="Résolu le"/>
+                <TableColumn fx:id="colTechnicienId" text="Technicien"/>
+                <TableColumn fx:id="colActions" text="Actions"/>
+            </columns>
+        </TableView>
+        <Button text="Ajouter un ticket" onAction="#onAddTicket" />
+    </children>
+</VBox>

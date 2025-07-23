@@ -12,6 +12,7 @@ module fr.esgi.pajavafx {
     requires com.almasb.fxgl.all;
     requires java.net.http;
     requires org.json;
+    requires com.google.gson;
     requires java.sql;
 
 
@@ -19,5 +20,5 @@ module fr.esgi.pajavafx {
     exports fr.esgi.pajavafx;
     exports fr.esgi.pajavafx.controllers;
     opens fr.esgi.pajavafx.controllers to javafx.fxml;
-    opens fr.esgi.pajavafx.models to javafx.base;
+    opens fr.esgi.pajavafx.models to javafx.base, com.google.gson;
 }

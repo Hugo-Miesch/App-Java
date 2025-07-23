@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="fr.esgi.pajavafx.controllers.TechnicienListController">
+    <padding>
+        <Insets top="16" right="16" bottom="16" left="16"/>
+    </padding>
+    <children>
+        <Label text="Gestion des techniciens" style="-fx-font-size: 22"/>
+        <TableView fx:id="tableTechniciens">
+            <columns>
+                <TableColumn fx:id="colId" text="ID"/>
+                <TableColumn fx:id="colNom" text="Nom"/>
+                <TableColumn fx:id="colEmail" text="Email"/>
+                <TableColumn fx:id="colActions" text="Actions"/>
+            </columns>
+        </TableView>
+        <Button text="Ajouter un technicien" onAction="#onAddTechnicien" />
+    </children>
+</VBox>

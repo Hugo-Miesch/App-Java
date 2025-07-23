@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="16" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="fr.esgi.pajavafx.controllers.RobotListController">
+    <padding>
+        <Insets top="20" bottom="20" left="20" right="20"/>
+    </padding>
+    <children>
+        <Label text="Liste des robots" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+        <TableView fx:id="tableRobots" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="colName" text="Nom" prefWidth="150"/>
+                <TableColumn fx:id="colEntrepotId" text="ID Entrepôt" prefWidth="100"/>
+                <TableColumn fx:id="colImage" text="Image (url)" prefWidth="200"/>
+                <TableColumn fx:id="colActions" text="Actions" prefWidth="120"/>
+            </columns>
+        </TableView>
+        <Button text="Ajouter un robot" onAction="#onAddRobot" style="-fx-font-size:14"/>
+    </children>
+</VBox>
