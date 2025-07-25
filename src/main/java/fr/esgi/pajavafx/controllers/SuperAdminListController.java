@@ -16,10 +16,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class SuperAdminListController implements Initializable {
-    @FXML private TableView<SuperAdmin> tableSuperAdmins;
-    @FXML private TableColumn<SuperAdmin, Integer> colId;
-    @FXML private TableColumn<SuperAdmin, String> colEmail;
-    @FXML private TableColumn<SuperAdmin, Void> colActions;
+    @FXML
+    private TableView<SuperAdmin> tableSuperAdmins;
+    @FXML
+    private TableColumn<SuperAdmin, Integer> colId;
+    @FXML
+    private TableColumn<SuperAdmin, String> colEmail;
+    @FXML
+    private TableColumn<SuperAdmin, Void> colActions;
 
     private final SuperAdminService superAdminService = new SuperAdminService();
     private final ObservableList<SuperAdmin> data = FXCollections.observableArrayList();
@@ -51,20 +55,26 @@ public class SuperAdminListController implements Initializable {
                         btnDelete.setOnAction(e -> {
                             SuperAdmin sa = getTableView().getItems().get(getIndex());
                             boolean ok = superAdminService.delete(sa.getId());
-                            if(ok) data.remove(sa);
+                            if (ok) data.remove(sa);
                             else new Alert(Alert.AlertType.ERROR, "Erreur de suppression !").showAndWait();
                         });
                     }
+
                     HBox box = new HBox(5, btnEdit, btnDelete);
+
                     @Override
-                    public void updateItem(Void item, boolean empty) { setGraphic(empty ? null : box); }
+                    public void updateItem(Void item, boolean empty) {
+                        setGraphic(empty ? null : box);
+                    }
                 };
             }
         });
     }
 
     @FXML
-    private void onAddSuperAdmin() { showEditDialog(null); }
+    private void onAddSuperAdmin() {
+        showEditDialog(null);
+    }
 
     private void showEditDialog(SuperAdmin admin) {
         Dialog<SuperAdmin> dialog = new Dialog<>();
@@ -72,21 +82,28 @@ public class SuperAdminListController implements Initializable {
 
         Label lblEmail = new Label("Email:");
         TextField tfEmail = new TextField(admin != null ? admin.getEmail() : "");
+        Label lblPassword = new Label("Mot de passe:");
+        PasswordField tfPassword = new PasswordField();
 
         GridPane grid = new GridPane();
-        grid.setHgap(10); grid.setVgap(10);
-        grid.add(lblEmail, 0, 0); grid.add(tfEmail, 1, 0);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(lblEmail, 0, 0);
+        grid.add(tfEmail, 1, 0);
+        grid.add(lblPassword, 0, 1);
+        grid.add(tfPassword, 1, 1);
         dialog.getDialogPane().setContent(grid);
 
         ButtonType okButton = new ButtonType("Enregistrer", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
 
         dialog.setResultConverter(dialogButton -> {
-            if(dialogButton == okButton) {
+            if (dialogButton == okButton) {
                 if (admin == null)
-                    return new SuperAdmin(0, tfEmail.getText());
+                    return new SuperAdmin(0, tfEmail.getText(), tfPassword.getText());
                 else {
                     admin.setEmail(tfEmail.getText());
+                    admin.setPassword(tfPassword.getText());
                     return admin;
                 }
             }

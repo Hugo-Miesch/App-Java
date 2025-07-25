@@ -10,7 +10,9 @@ import fr.esgi.pajavafx.services.RobotService;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -80,12 +82,24 @@ public class RobotListController implements Initializable {
         TextField tfEntrepotId = new TextField(robot != null ? String.valueOf(robot.getEntrepot_id()) : "");
         Label lblImage = new Label("Image (url):");
         TextField tfImage = new TextField(robot != null ? robot.getImage_path() : "");
+        Label lblImageFile = new Label("Fichier image :");
+        TextField tfImageFile = new TextField();
+        tfImageFile.setEditable(false);
+        Button btnImageFile = new Button("Sélectionner une image");
+        FileChooser fileChooser = new FileChooser();
+        btnImageFile.setOnAction(e -> {
+            File file = fileChooser.showOpenDialog(dialog.getDialogPane().getScene().getWindow());
+            if (file != null) {
+                tfImageFile.setText(file.getAbsolutePath());
+            }
+        });
 
         GridPane grid = new GridPane();
         grid.setHgap(10); grid.setVgap(10);
         grid.add(lblName, 0, 0); grid.add(tfName, 1, 0);
         grid.add(lblEntrepotId, 0, 1); grid.add(tfEntrepotId, 1, 1);
         grid.add(lblImage, 0, 2); grid.add(tfImage, 1, 2);
+        grid.add(lblImageFile, 0, 3); grid.add(tfImageFile, 1, 3); grid.add(btnImageFile, 2, 3);
         dialog.getDialogPane().setContent(grid);
 
         ButtonType okButton = new ButtonType("Enregistrer", ButtonBar.ButtonData.OK_DONE);
@@ -97,13 +111,33 @@ public class RobotListController implements Initializable {
                     String name = tfName.getText();
                     int entrepotId = Integer.parseInt(tfEntrepotId.getText());
                     String imagePath = tfImage.getText();
-                    if (robot == null)
-                        return new Robot(0, name, entrepotId, imagePath);
-                    else {
+                    String imageFile = tfImageFile.getText();
+                    if (robot == null) {
+                        Robot newRobot = new Robot(0, name, entrepotId, imagePath);
+                        Robot added = robotService.add(newRobot);
+                        if (added != null) {
+                            // Upload de l'image
+                            if (!imageFile.isEmpty()) {
+                                robotService.uploadImage(added.getId(), imageFile);
+                            }
+                            return added;
+                        } else {
+                            return null;
+                        }
+                    } else {
                         robot.setName(name);
                         robot.setEntrepot_id(entrepotId);
                         robot.setImage_path(imagePath);
-                        return robot;
+                        boolean ok = robotService.update(robot);
+                        if (ok) {
+                            // Upload de l'image si elle a changé
+                            if (!imageFile.isEmpty() && !imageFile.equals(robot.getImage_path())) {
+                                robotService.uploadImage(robot.getId(), imageFile);
+                            }
+                            return robot;
+                        } else {
+                            return null;
+                        }
                     }
                 } catch (Exception e) {
                     new Alert(Alert.AlertType.ERROR, "Champs invalides !").showAndWait();
@@ -116,11 +150,9 @@ public class RobotListController implements Initializable {
         dialog.showAndWait().ifPresent(result -> {
             if (result == null) return;
             if (robot == null) {
-                Robot added = robotService.add(result);
-                if (added != null) data.add(added);
+                data.add(result);
             } else {
-                boolean ok = robotService.update(result);
-                if (ok) loadData();
+                loadData();
             }
         });
     }

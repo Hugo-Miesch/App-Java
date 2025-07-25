@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,8 +36,18 @@ public class RobotService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(response.body(), Robot.class);
-        } catch (Exception e) { e.printStackTrace(); return null; }
+            System.out.println("Réponse de l'API : " + response.body());
+            if (response.statusCode() == 200) {
+                return gson.fromJson(response.body(), Robot.class);
+            } else {
+                // Gérer les cas où la réponse n'est pas au format JSON attendu
+                System.out.println("Erreur : " + response.statusCode());
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean update(Robot r) {
@@ -61,5 +72,19 @@ public class RobotService {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.statusCode() == 200;
         } catch (Exception e) { e.printStackTrace(); return false; }
+    }
+    public boolean uploadImage(int robotId, String imageFile) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL + "/" + robotId + "/image"))
+                    .header("Content-Type", "application/octet-stream")
+                    .PUT(HttpRequest.BodyPublishers.ofFile(Paths.get(imageFile)))
+                    .build();
+            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() == 200;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

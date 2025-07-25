@@ -1,18 +1,23 @@
 package fr.esgi.pajavafx.models;
 
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 public class Client {
     private int id;
     private String email;
     private String name;
     private String image;
+    private String password;
 
     public Client() {}
 
-    public Client(int id, String email, String name, String image) {
+    public Client(int id, String email, String name, String image, String password) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.image = image;
+        this.password = password;
     }
 
     public int getId() { return id; }
@@ -26,4 +31,11 @@ public class Client {
 
     public String getImage() { return image; }
     public void setImage(String image) { this.image = image; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public HttpResponse<String> send(HttpRequest request, HttpResponse.BodyHandler<String> stringBodyHandler) {
+            return null;
+    }
 }

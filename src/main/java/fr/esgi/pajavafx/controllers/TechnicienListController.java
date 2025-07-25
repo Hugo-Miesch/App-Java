@@ -16,10 +16,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class TechnicienListController implements Initializable {
-    @FXML private TableView<Technicien> tableTechniciens;
-    @FXML private TableColumn<Technicien, Integer> colId;
-    @FXML private TableColumn<Technicien, String> colEmail;
-    @FXML private TableColumn<Technicien, Void> colActions;
+    @FXML
+    private TableView<Technicien> tableTechniciens;
+    @FXML
+    private TableColumn<Technicien, Integer> colId;
+    @FXML
+    private TableColumn<Technicien, String> colEmail;
+    @FXML
+    private TableColumn<Technicien, Void> colActions;
 
     private final TechnicienService technicienService = new TechnicienService();
     private final ObservableList<Technicien> data = FXCollections.observableArrayList();
@@ -51,20 +55,26 @@ public class TechnicienListController implements Initializable {
                         btnDelete.setOnAction(e -> {
                             Technicien t = getTableView().getItems().get(getIndex());
                             boolean ok = technicienService.delete(t.getId());
-                            if(ok) data.remove(t);
+                            if (ok) data.remove(t);
                             else new Alert(Alert.AlertType.ERROR, "Erreur de suppression !").showAndWait();
                         });
                     }
+
                     HBox box = new HBox(5, btnEdit, btnDelete);
+
                     @Override
-                    public void updateItem(Void item, boolean empty) { setGraphic(empty ? null : box); }
+                    public void updateItem(Void item, boolean empty) {
+                        setGraphic(empty ? null : box);
+                    }
                 };
             }
         });
     }
 
     @FXML
-    private void onAddTechnicien() { showEditDialog(null); }
+    private void onAddTechnicien() {
+        showEditDialog(null);
+    }
 
     private void showEditDialog(Technicien technicien) {
         Dialog<Technicien> dialog = new Dialog<>();
@@ -72,21 +82,28 @@ public class TechnicienListController implements Initializable {
 
         Label lblEmail = new Label("Email:");
         TextField tfEmail = new TextField(technicien != null ? technicien.getEmail() : "");
+        Label lblPassword = new Label("Mot de passe:");
+        PasswordField tfPassword = new PasswordField();
 
         GridPane grid = new GridPane();
-        grid.setHgap(10); grid.setVgap(10);
-        grid.add(lblEmail, 0, 0); grid.add(tfEmail, 1, 0);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(lblEmail, 0, 0);
+        grid.add(tfEmail, 1, 0);
+        grid.add(lblPassword, 0, 1);
+        grid.add(tfPassword, 1, 1);
         dialog.getDialogPane().setContent(grid);
 
         ButtonType okButton = new ButtonType("Enregistrer", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
 
         dialog.setResultConverter(dialogButton -> {
-            if(dialogButton == okButton) {
+            if (dialogButton == okButton) {
                 if (technicien == null)
-                    return new Technicien(0, tfEmail.getText());
+                    return new Technicien(0, tfEmail.getText(), tfPassword.getText());
                 else {
                     technicien.setEmail(tfEmail.getText());
+                    technicien.setPassword(tfPassword.getText());
                     return technicien;
                 }
             }

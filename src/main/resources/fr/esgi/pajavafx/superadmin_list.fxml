@@ -14,7 +14,6 @@
         <TableView fx:id="tableSuperAdmins" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
-                <TableColumn fx:id="colNom" text="Nom" prefWidth="150"/>
                 <TableColumn fx:id="colEmail" text="Email" prefWidth="220"/>
                 <TableColumn fx:id="colActions" text="Actions" prefWidth="120"/>
             </columns>

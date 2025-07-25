@@ -13,7 +13,6 @@
         <TableView fx:id="tableTechniciens">
             <columns>
                 <TableColumn fx:id="colId" text="ID"/>
-                <TableColumn fx:id="colNom" text="Nom"/>
                 <TableColumn fx:id="colEmail" text="Email"/>
                 <TableColumn fx:id="colActions" text="Actions"/>
             </columns>

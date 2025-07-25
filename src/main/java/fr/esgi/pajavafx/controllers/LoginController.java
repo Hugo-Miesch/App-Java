@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,9 +22,15 @@ public class LoginController implements Initializable {
     private PasswordField passwordField;
     @FXML
     private Button loginButton;
+    @FXML
+    private ImageView logoImageView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Chargement de l'image dans le ImageView
+        Image image = new Image(getClass().getResourceAsStream("/fr/esgi/pajavafx/logo.png"));
+        logoImageView.setImage(image);
+
         loginButton.setOnAction(event -> loginSuperAdmin());
     }
 

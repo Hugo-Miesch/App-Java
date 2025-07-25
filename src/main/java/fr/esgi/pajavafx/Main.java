@@ -28,9 +28,6 @@ public class Main extends Application {
         mainStage.show();
     }
 
-    /**
-     * Appelée une fois que le login est réussi.
-     */
     public static void showHomeView() throws Exception {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/fr/esgi/pajavafx/Home.fxml")); // à adapter au nom exact de ton FXML principal
         Parent root = loader.load();
